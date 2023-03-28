@@ -24,8 +24,14 @@ jobs:
         run: black --check .
       - name: Lint code
         run: pylint *.py
-      - name: Run tests and coverage report
+      - name: Run unit tests
         run: |
-          pytest
-          coverage run -m pytest
-          coverage report
+          PYTHONPATH="${PYTHONPATH}:./src" python -m pytest -v tests/unit
+      - name: Run functional tests
+        run: |
+          PYTHONPATH="${PYTHONPATH}:./src" python -m pytest -v tests/functional
+      - name: Run coverage
+        run: |
+          PYTHONPATH="${PYTHONPATH}:./src" coverage run --source=./src -m pytest
+      - name: Generate coverage report
+        run: coverage report -m
