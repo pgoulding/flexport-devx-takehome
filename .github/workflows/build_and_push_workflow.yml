@@ -69,8 +69,4 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ ENV.DOCKER_IMAGE_NAME }}:${{ github.sha }} # Docker Hub image tag
             ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }} # ghcr.io registry image tag
-
           # Pass in Docker Hub credentials as environment variables
-          env:
-            DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
