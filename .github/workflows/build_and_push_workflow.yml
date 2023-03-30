@@ -37,16 +37,16 @@ jobs:
       - name: Build and tag Docker image
         run: |
           # Build the Docker image and tag it with the git commit hash
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ ENV.DOCKER_IMAGE_NAME }}:${{ github.sha }} .
+          docker build -t ${{ ENV.DOCKER_USERNAME }}/${{ ENV.DOCKER_IMAGE_NAME }}:${{ github.sha }} .
 
           # Tag the Docker image for the ghcr.io registry
-          docker tag ${{ secrets.DOCKER_USERNAME }}/${{ ENV.DOCKER_IMAGE_NAME }}:${{ github.sha }} ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
+          docker tag ${{ ENV.DOCKER_USERNAME }}/${{ ENV.DOCKER_IMAGE_NAME }}:${{ github.sha }} ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
 
       # Step 4: Test the Docker image by running it and checking for a response of "OK"
       - name: Test Docker image
         run: |
           # Run the Docker image and map port 5000
-          docker run -d -p 5000:5000 --name rockpaperscissorsapp ${{ secrets.DOCKER_USERNAME }}/${{ ENV.DOCKER_IMAGE_NAME }}:${{ env.VERSION }}
+          docker run -d -p 5000:5000 --name rockpaperscissorsapp ${{ ENV.DOCKER_USERNAME }}/${{ ENV.DOCKER_IMAGE_NAME }}:${{ env.VERSION }}
 
           # Wait for the app to start
           sleep 5
@@ -67,6 +67,6 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/${{ ENV.DOCKER_IMAGE_NAME }}:${{ github.sha }} # Docker Hub image tag
+            ${{ ENV.DOCKER_USERNAME }}/${{ ENV.DOCKER_IMAGE_NAME }}:${{ github.sha }} # Docker Hub image tag
             ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }} # ghcr.io registry image tag
           # Pass in Docker Hub credentials as environment variables
