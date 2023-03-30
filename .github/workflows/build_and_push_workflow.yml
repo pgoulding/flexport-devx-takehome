@@ -1,7 +1,7 @@
 # Name of the workflow
 name: Build and Push Docker Image
 
-# Trigger the workflow on a push event to the main branch
+# Trigger the workflow on a push event to the main or dev branch
 on:
   push:
     branches:
@@ -38,16 +38,16 @@ jobs:
       - name: Build and tag Docker image
         run: |
           # Build the Docker image and tag it with the git commit hash
-          docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }} .
+          docker build -t patrickgoulding/flexport-takehome:${{ github.sha }} .
 
           # Tag the Docker image for the ghcr.io registry
-          docker tag ${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }} ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
+          docker tag patrickgoulding/flexport-takehome:${{ github.sha }} ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
 
       # Step 4: Test the Docker image by running it and checking for a response of "OK"
       - name: Test Docker image
         run: |
           # Run the Docker image and map port 5000
-          docker run -d -p 5000:5000 --name rockpaperscissorsapp ${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
+          docker run -d -p 5000:5000 --name rockpaperscissorsapp patrickgoulding/flexport-takehome:${{ github.sha }}
 
           # Wait for the app to start
           sleep 5
@@ -68,6 +68,6 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }} # Docker Hub image tag
+            patrickgoulding/flexport-takehome:${{ github.sha }} # Docker Hub image tag
             ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }} # ghcr.io registry image tag
           # Pass in Docker Hub credentials as environment variables
