@@ -1,9 +1,9 @@
-name: "Test a service using Kind"
+name: "Test k8s with Kind"
 on: [pull_request, push]
 
 jobs:
   kind:
-    needs: Build and Push Docker Image
+    needs: Build and Push
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

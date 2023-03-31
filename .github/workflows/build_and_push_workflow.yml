@@ -1,5 +1,5 @@
 # Name of the workflow
-name: Build and Push Docker Image
+name: Build and Push
 
 # Trigger the workflow on a push event to the main or dev branch
 on:
