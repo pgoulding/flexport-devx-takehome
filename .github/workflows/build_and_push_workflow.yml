@@ -68,7 +68,7 @@ jobs:
       - name: Deploy Application
         run: |
           docker pull ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
-          kind load docker-image ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }} --name test-kind-deploy
+          kind load docker-image ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }} --name kind
           kubectl create deployment flexport-takehome --image=ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
           kubectl wait pods --for condition=Ready --timeout=90s --all
           kubectl expose deployment/flexport-takehome --type=NodePort --port 8080
@@ -82,4 +82,4 @@ jobs:
       - name: Cleanup
         if: always()
         run: |
-          kind delete cluster --name test-kind-deploy
+          kind delete cluster --name kind
