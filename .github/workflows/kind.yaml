@@ -2,6 +2,13 @@ name: "Test k8s with Kind"
 on: [pull_request, push]
 
 jobs:
+  wait:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Workflow
+        run: |
+          echo "Waiting for previous action"
+          sleep 5
   kind:
     needs: Build and Push
     runs-on: ubuntu-latest
