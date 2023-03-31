@@ -49,6 +49,6 @@ jobs:
         with:
           push: true
           tags: |
-            patrickgoulding/flexport-takehome:${{ github.sha }} # Docker Hub image tag
-            ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }} # ghcr.io registry image tag
+            patrickgoulding/flexport-takehome:${{ github.sha }}
+            ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
           # Pass in Docker Hub credentials as environment variables
