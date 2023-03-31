@@ -82,6 +82,7 @@ jobs:
           export ENDPOINT=$(kubectl describe services/flexport-takehome | awk '/Endpoints/ {print $2}')
           echo POD_NAME=${POD_NAME}
           echo ENDPOINT =${ENDPOINT}
+          kubectl port-forward $POD_NAME 5000:5000
           kubectl exec $POD_NAME -- wget http://$ENDPOINT/version -O -
       - name: Cleanup
         if: always()
