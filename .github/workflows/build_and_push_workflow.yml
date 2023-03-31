@@ -72,7 +72,7 @@ jobs:
           kind load docker-image ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }} --name rps-flexport
           kubectl create deployment flexport-takehome --image=ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
           kubectl wait pods --for condition=Ready --timeout=90s --all
-          kubectl expose deployment/flexport-takehome --type=NodePort --port 8080
+          kubectl expose deployment/flexport-takehome --type=NodePort --port 5000
       - name: Test Deployment
         run: |
           export NODE_PORT=$(kubectl get services/flexport-takehome -o go-template='{{(index .spec.ports 0).nodePort}}')
@@ -82,7 +82,7 @@ jobs:
           export ENDPOINT=$(kubectl describe services/flexport-takehome | awk '/Endpoints/ {print $2}')
           echo POD_NAME=${POD_NAME}
           echo ENDPOINT =${ENDPOINT}
-          kubectl exec $POD_NAME -- wget https://$ENDPOINT/version -O -
+          kubectl exec $POD_NAME -- wget http://$ENDPOINT/version -O -
       - name: Cleanup
         if: always()
         run: |
