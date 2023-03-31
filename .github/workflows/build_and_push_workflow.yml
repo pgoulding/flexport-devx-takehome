@@ -1,12 +1,13 @@
 # Name of the workflow
-name: Build and Push
+name: Build and Deploy
 
 # Trigger the workflow on a push event to the main or dev branch
 on:
   push:
     branches:
       - "*"
-# Define a job to build and push the Docker image
+
+# Define jobs for the workflow
 jobs:
   build-and-push:
     # Use the latest Ubuntu image as the build environment
@@ -49,7 +50,7 @@ jobs:
           tags: |
             patrickgoulding/flexport-takehome:${{ github.sha }}
             ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
-          # Pass in Docker Hub credentials as environment variables
+
   kind:
     needs: build-and-push
     runs-on: ubuntu-latest
@@ -66,6 +67,8 @@ jobs:
           echo "environment-kubeconfig:" ${KUBECONFIG}
       - name: Deploy Application
         run: |
+          docker pull ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
+          kind load docker-image ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }} --name test-kind-deploy
           kubectl create deployment flexport-takehome --image=ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
           kubectl wait pods --for condition=Ready --timeout=90s --all
           kubectl expose deployment/flexport-takehome --type=NodePort --port 8080
@@ -79,4 +82,4 @@ jobs:
       - name: Cleanup
         if: always()
         run: |
-          kind delete cluster --name test-cd
+          kind delete cluster --name test-kind-deploy
