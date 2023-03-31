@@ -50,7 +50,7 @@ jobs:
             patrickgoulding/flexport-takehome:${{ github.sha }}
             ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
           # Pass in Docker Hub credentials as environment variables
-   kind:
+  kind:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
