@@ -75,6 +75,8 @@ jobs:
           kubectl expose deployment/flexport-takehome --type=NodePort --port 8080
       - name: Test Deployment
         run: |
+          kubectl get services/flexport-takehome
+          kubectl get services/flexport-takehome -o go-template='{{(index .spec.ports 0).nodePort}}'
           export NODE_PORT=$(kubectl get services/flexport-takehome -o go-template='{{(index .spec.ports 0).nodePort}}')
           echo NODE_PORT=${NODE_PORT}
           kubectl describe services/flexport-takehome
