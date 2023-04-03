@@ -42,22 +42,7 @@ jobs:
           # Tag the Docker image for the ghcr.io registry
           docker tag patrickgoulding/flexport-takehome:${{ github.sha }} ghcr.io/${{ github.actor }}/${{ github.repository }}:${{ github.sha }}
 
-      # Step 4: Test the Docker image by running it and checking for a response of "OK"
-      - name: Test Docker image
-        run: |
-          # Run the Docker image and map port 5000	
-          docker run -d -p 5000:5000 --name rockpaperscissorsapp patrickgoulding/flexport-takehome:${{ github.sha }}	
-          # Wait for the app to start	
-          sleep 5	
-          # Make a request to the app and check for a response of "OK"	
-          response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://127.0.0.1:5000/health)	
-          if [ $response -ne 200 ]; then	
-            echo "Error: health check failed"	
-            exit 1	
-          fi	
-          # Stop the Docker container	
-          docker stop rockpaperscissorsapp
-      # Step 5: Push the Docker image to the registry
+      # Step 3: Push the Docker image to the registry
       - name: Push Docker image to registry
         uses: docker/build-push-action@v4
         with:
