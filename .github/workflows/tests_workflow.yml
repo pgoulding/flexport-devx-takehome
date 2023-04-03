@@ -36,6 +36,7 @@ jobs:
           PYTHONPATH="${PYTHONPATH}:./src" python -m pytest -v tests/functional
       - name: Run coverage
         run: |
-          PYTHONPATH="${PYTHONPATH}:./src" coverage run --source=./src -m pytest
+          PYTHONPATH="${PYTHONPATH}:./src" coverage run --source=./src -m pytest -m "not integration"
+          coveralls
       - name: Generate coverage report
         run: coverage report -m

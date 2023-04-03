@@ -1,5 +1,7 @@
 import requests
 
+pytest.mark.integration
+
 
 def test_health_endpoint():
     """
