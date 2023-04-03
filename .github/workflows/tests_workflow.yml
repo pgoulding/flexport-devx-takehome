@@ -35,6 +35,8 @@ jobs:
         run: |
           PYTHONPATH="${PYTHONPATH}:./src" python -m pytest -v tests/functional
       - name: Run coverage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PYTHONPATH="${PYTHONPATH}:./src" coverage run --source=./src -m pytest -m "not integration"
           coveralls
