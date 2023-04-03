@@ -1,8 +1,8 @@
 import requests
+import pytest
 
-pytest.mark.integration
 
-
+@pytest.mark.integration
 def test_health_endpoint():
     """
     Tests Health Endpoint while application is running
