@@ -11,6 +11,7 @@ def test_health_endpoint():
     assert response.status_code == 200
 
 
+@pytest.mark.integration
 def test_rps_endpoint():
     """
     Tests the RPS endpoint wehile server is running
