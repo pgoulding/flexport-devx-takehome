@@ -96,7 +96,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          export ENDPOINT=$(kubectl describe services/flexport-takehome | awk '/Endpoints/ {print $2}')  # Get the endpoint for the service
           export APP_URL=http://${ENDPOINT}
+          echo APP_URL=${APP_URL}
           PYTHONPATH="${PYTHONPATH}:./src" coverage run --source=./src -m pytest -v && coveralls
       - name: Cleanup
         if: always() # This step will always run, regardless of the success/failure of previous steps
