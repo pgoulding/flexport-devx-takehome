@@ -1,41 +1,46 @@
-name: Python Workflow
+# Defines a workflow that runs when code is pushed to any branch
+name: Tests and Lint
 
 on:
   push:
     branches:
       - "*"
 
+
+# Defines a job named "build" that runs on an Ubuntu machine
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Defines a matrix of Python versions to test the code against
     strategy:
       matrix:
         python-version: [3.7, 3.8, 3.9, "3.10", 3.11]
 
+    # Defines the steps to execute as part of the job
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
+      - uses: actions/checkout@v3 # Checkout the repository code into the runner's file system
+      - name: Set up Python ${{ matrix.python-version }} # Set up Python with the specified version
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Display Python version
+      - name: Display Python version # Display the Python version that was set up
         run: python -c "import sys; print(sys.version)"
-      - name: Install dependencies
+      - name: Install dependencies # Install the dependencies specified in the requirements.txt file
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Check formatting
+      - name: Check formatting # Check that the code is properly formatted using the Black code formatter
         run: black --check .
-      - name: Lint code
+      - name: Lint code # Lint the code using the pylint code analysis tool
         run: pylint **/*.py
-      - name: Run unit tests
+      - name: Run unit tests # Run the unit tests
         run: |
           PYTHONPATH="${PYTHONPATH}:./src" python -m pytest -v tests/unit
-      - name: Run functional tests
+      - name: Run functional tests # Run the functional tests
         run: |
           PYTHONPATH="${PYTHONPATH}:./src" python -m pytest -v tests/functional
-      - name: Run coverage
+      - name: Run local coverage # Run the coverage tests on code that is not integration tests
         run: |
-          PYTHONPATH="${PYTHONPATH}:./src" coverage run --source=./src -m pytest
-      - name: Generate coverage report
+          PYTHONPATH="${PYTHONPATH}:./src" coverage run --source=./src -m pytest -m "not integration"
+      - name: Generate coverage report # Generate a coverage report
         run: coverage report -m
