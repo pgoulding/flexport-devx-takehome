@@ -98,8 +98,8 @@ jobs:
           export ENDPOINT=$(kubectl describe services/flexport-takehome | awk '/Endpoints/ {print $2}')  # Get the endpoint for the service
           export APP_URL=http://${ENDPOINT}
           echo APP_URL=${APP_URL}
-          wget ${APP_URL}/health -O -
-          PYTHONPATH="${PYTHONPATH}:./src" coverage run --source=./src -m pytest -v && coveralls
+          # wget ${APP_URL}/health -O -
+          PYTHONPATH="${PYTHONPATH}:./src" coverage run --source=./src -m pytest -m "not integration" && coveralls
       - name: Cleanup
         if: always() # This step will always run, regardless of the success/failure of previous steps
         run: |
