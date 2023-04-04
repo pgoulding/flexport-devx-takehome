@@ -3,7 +3,6 @@ import pytest
 
 
 @pytest.mark.integration
-@pytest.mark.parametrize("app_url", [APP_URL])
 def test_health_endpoint(app_url):
     """
     Tests Health Endpoint while application is running
@@ -13,7 +12,6 @@ def test_health_endpoint(app_url):
 
 
 @pytest.mark.integration
-@pytest.mark.parametrize("app_url", [APP_URL])
 def test_rps_endpoint(app_url):
     """
     Tests the RPS endpoint wehile server is running
