@@ -1,3 +1,6 @@
+"""
+    This module contains integration tests for the rock-paper-scissors game.
+"""
 import requests
 import pytest
 import os

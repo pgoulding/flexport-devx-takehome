@@ -1,4 +1,7 @@
-import pytest
+"""
+    This module contains unit tests for the rock-paper-scissors game.
+"""
+
 from rock_paper_scissors.rps import rock_paper_scissors
 
 

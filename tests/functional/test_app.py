@@ -1,3 +1,6 @@
+"""
+    This module contains functional tests for the rock-paper-scissors game.
+"""
 import json
 
 from rock_paper_scissors.app import app
