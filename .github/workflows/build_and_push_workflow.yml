@@ -90,7 +90,6 @@ jobs:
           wget http://localhost:5000/health -O -  # Test the health endpoint for the deployed service
       - name: Test Deployed Endpoints and coverage # This step runs integration tests against the deployed endpoints
         env:
-          APP_URL: ${{ env.ENDPOINT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: |
@@ -99,6 +98,7 @@ jobs:
           export ENDPOINT=$(kubectl describe services/flexport-takehome | awk '/Endpoints/ {print $2}')  # Get the endpoint for the service
           export APP_URL=http://${ENDPOINT}
           echo APP_URL=${APP_URL}
+          wget http://${APP_URL}/health -O -
           PYTHONPATH="${PYTHONPATH}:./src" coverage run --source=./src -m pytest -v && coveralls
       - name: Cleanup
         if: always() # This step will always run, regardless of the success/failure of previous steps

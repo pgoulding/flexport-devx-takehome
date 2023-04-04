@@ -16,7 +16,8 @@ def test_health_endpoint():
     :param app_url: The URL of the running application.
     :type app_url: str
     """
-    response = requests.get(app_url + "/health")
+    health_endpoint = app_url + "/health"
+    response = requests.get(health_endpoint)
     assert response.status_code == 200
 
 
@@ -28,5 +29,6 @@ def test_rps_endpoint():
     :param app_url: The URL of the running application.
     :type app_url: str
     """
-    response = requests.post(app_url + "/rps", json={"move": "rock"})
+    rps_endpoint = app_url + "/rps"
+    response = requests.post(rps_endpoint, json={"move": "rock"})
     assert response.status_code == 200
