@@ -6,6 +6,7 @@ on:
     branches:
       - "*"
 
+
 # Defines a job named "build" that runs on an Ubuntu machine
 jobs:
   build:

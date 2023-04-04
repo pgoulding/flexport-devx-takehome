@@ -1,13 +1,16 @@
 # Name of the workflow
+
 name: Build and Deploy
+
 
 # Trigger the workflow on a push event to the main or dev branch
 on:
   push:
     branches:
-      - "*"
-
+      - main
+      - dev
 # Define jobs for the workflow
+
 jobs:
   build-and-push:
     # Use the latest Ubuntu image as the build environment
@@ -104,3 +107,4 @@ jobs:
         if: always() # This step will always run, regardless of the success/failure of previous steps
         run: |
           kind delete cluster --name rps-flexport # cleans up and deletes the rps-flexport cluster created earlier
+
