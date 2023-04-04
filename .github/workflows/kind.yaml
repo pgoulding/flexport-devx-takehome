@@ -35,6 +35,7 @@ jobs:
           kubectl describe services/flexport-takehome
           export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
           kubectl exec -ti $POD_NAME -- curl localhost:8080/version
+
       - name: Cleanup
         if: always()
         run: |
