@@ -5,7 +5,10 @@ from rock_paper_scissors.app import app
 
 def test_rps():
     """
-    Test Flask Application and API for Rock Paper Scissors
+    Tests the Rock Paper Scissors API with a valid input.
+
+    Uses Flask test client to simulate a request to the /rps endpoint with
+    a valid input. Asserts that the response status code is 200 (OK).
     """
 
     with app.test_client() as test_client:
@@ -17,7 +20,11 @@ def test_rps():
 
 def test_health_endpoint():
     """
-    Test Flask Application Health Endpoint
+    Tests the Flask application health endpoint.
+
+    Uses Flask test client to simulate a request to the /health endpoint.
+    Asserts that the response status code is 200 (OK) and that the response
+    data is the string 'OK' encoded in bytes.
     """
     with app.test_client() as client:
         response = client.get("/health")
@@ -27,7 +34,11 @@ def test_health_endpoint():
 
 def test_rps_endpoint_with_valid_input():
     """
-    Test Rock Paper Scisscors endpoint with a valid input, and expect a valid response
+    Tests the Rock Paper Scissors endpoint with a valid input.
+
+    Uses Flask test client to simulate a request to the /rps endpoint with
+    a valid input. Asserts that the response status code is 200 (OK) and that
+    the response data contains the expected keys and values.
     """
     with app.test_client() as client:
         data = {"move": "Rock"}
